@@ -6,10 +6,10 @@ import com.icodeap.ecommerce.domain.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -26,11 +26,11 @@ public class ProductController {
     public String create(){ return "admin/products/create";}
 
     @PostMapping("/save-product")
-    public String saveProduct(Product product){
+    public String saveProduct(Product product,@RequestParam("img") MultipartFile multipartFile) throws IOException {
         log.info("Nombre del producto: {}", product);
-        productService.saveProduct(product);
+        productService.saveProduct(product, multipartFile);
         //return "admin/products/create";
-        return "redirect:/admin";
+        return "redirect:/admin/products/show";
     }
 
     @GetMapping("/show")
@@ -49,4 +49,11 @@ public class ProductController {
         model.addAttribute("product",product);
         return "admin/products/edit";
     }
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Integer id){
+        productService.deleteProductById(id);
+        return "redirect:/admin/products/show";
+    }
+
+
 }

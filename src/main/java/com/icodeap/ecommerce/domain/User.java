@@ -2,6 +2,8 @@ package com.icodeap.ecommerce.domain;
 
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 @Data

@@ -23,8 +23,8 @@ public class UserEntity {
     private String address;
     private String cellphone;
     private String password;
-
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value=EnumType.STRING)
+    @Column(columnDefinition = "varchar")
     private UserType userType;
     private LocalDateTime dateCreated;
 

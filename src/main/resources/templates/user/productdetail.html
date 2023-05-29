@@ -57,18 +57,19 @@
                 <h2 class="card-title" th:text="${product.name}"></h2>
                 <ul class="list-group">
                   <li class="list-group-item"><h5 th:text="'Precio: $'+${product.price}"></h5></li>
-                  <li class="list-group-item"><h5 th:text="'Unidades disponibles: '+ ${stock}"></h5></li>
+                  <li class="list-group-item" th:if="${stock!=0}"><h5 th:text="'Unidades disponibles: '+ ${stock}"></h5></li>
+                  <li class="list-group-item" th:unless="${stock!=0}"><h5 th:text="'Sin stock disponible'" ></h5></li>
                   <li class="list-group-item">
                     <p th:text="'Descripcion: $'+${product.description}"></p>
                   </li>
-                  <li class="list-group-item"><h6>
+                  <li class="list-group-item" th:if="${stock!=0}"><h6>
                     Cantidad: <input type="number" id="quantity" name="quantity" autocomplete="off"
                     min="1" max="5" value="1">
                   </h6></li>
                 </ul>
 
 
-                <button type="submit"  class="btn btn-dark">Añadir al carrito </button>
+                <button type="submit"  class="btn btn-dark" th:if="${stock!=0}">Añadir al carrito </button>
 
               </form>
             </div>

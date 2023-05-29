@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @Controller
@@ -26,17 +27,19 @@ public class ProductController {
     public String create(){ return "admin/products/create";}
 
     @PostMapping("/save-product")
-    public String saveProduct(Product product,@RequestParam("img") MultipartFile multipartFile) throws IOException {
+    public String saveProduct(Product product,@RequestParam("img") MultipartFile multipartFile, HttpSession httpSession) throws IOException {
         log.info("Nombre del producto: {}", product);
-        productService.saveProduct(product, multipartFile);
+        productService.saveProduct(product, multipartFile, httpSession);
         //return "admin/products/create";
         return "redirect:/admin/products/show";
     }
 
     @GetMapping("/show")
-    public String showProduct(Model model){
+    public String showProduct(Model model, HttpSession httpSession){
+        log.info("id user desde la variable de session: {}",httpSession.getAttribute("iduser").toString());
+
         User user = new User();
-        user.setId(1);
+        user.setId(Integer.parseInt(httpSession.getAttribute("iduser").toString()));
         Iterable<Product> products = productService.getProductsByUser(user);
         model.addAttribute("products",products);
         return "admin/products/show";

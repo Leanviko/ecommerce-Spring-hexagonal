@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.math.BigDecimal;
 
 @Controller
@@ -30,10 +31,11 @@ public class CartController {
     }
 
     @GetMapping("/get-cart")
-    public String getCart(Model model){
+    public String getCart(Model model, HttpSession httpSession){
         showCart();
         model.addAttribute("cart", cartService.getItemsCarts());
         model.addAttribute("total", cartService.getTotalCart());
+        model.addAttribute("id",httpSession.getAttribute("iduser").toString());
 
         return "user/cart/cart";
     }

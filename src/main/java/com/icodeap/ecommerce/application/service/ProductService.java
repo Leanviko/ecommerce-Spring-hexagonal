@@ -5,6 +5,7 @@ import com.icodeap.ecommerce.domain.Product;
 import com.icodeap.ecommerce.domain.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
@@ -26,10 +27,11 @@ public class ProductService {
     public Product getProductById(Integer id){
         return  productRepository.getProductById(id);
     }
-    public Product saveProduct(Product product, MultipartFile multipartFile) throws IOException {
+    public Product saveProduct(Product product, MultipartFile multipartFile, HttpSession httpSession) throws IOException {
+
         if (product.getId()==null){
             User user=new User();
-            user.setId(1);//Por ahora le asigno directamente el registro que agregé en la base de datos, despues lo desarrollamos
+            user.setId(Integer.parseInt(httpSession.getAttribute("iduser").toString()));
             product.setDateCreated(LocalDateTime.now());
             product.setDateUpdated(LocalDateTime.now());
             product.setUser(user);
